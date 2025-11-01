@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Customer, Purchase, PaymentMode, ConnectionStatus, subscriptionPlanPrices, SubscriptionPlan } from '../types';
+import { Customer, Purchase, PaymentMode, ConnectionStatus, subscriptionPlanPrices, Packages } from '../types';
 import { PencilIcon, UserIcon, TrashIcon, PlusIcon, CheckCircleIcon } from './icons';
 import CustomerForm from './CustomerForm';
 
@@ -28,7 +28,7 @@ const CustomerDetail: React.FC<CustomerDetailProps> = ({ customer, onUpdate, onD
     const [newPurchase, setNewPurchase] = useState({ description: '', amount: '', paymentMode: PaymentMode.Online });
 
     const totalPaid = customer.purchaseHistory.reduce((sum, p) => sum + p.amount, 0);
-    const planPrice = subscriptionPlanPrices[customer.subscriptionPlan as SubscriptionPlan];
+    const planPrice = subscriptionPlanPrices[customer.packages as Packages];
 
     const handleUpdate = (updatedCustomer: Omit<Customer, 'purchaseHistory'>) => {
         onUpdate(updatedCustomer, null);
@@ -80,8 +80,8 @@ const CustomerDetail: React.FC<CustomerDetailProps> = ({ customer, onUpdate, onD
                     <InfoItem label="Contact Number" value={customer.contactNumber} />
                     <InfoItem label="Email" value={customer.email} />
                     <InfoItem label="City" value={customer.address.city} />
-                    <InfoItem label="Subscription Plan" value={customer.subscriptionPlan} />
-                    <InfoItem label="Plan Price" value={`$${planPrice.toFixed(2)} / month`} />
+                    <InfoItem label="DTH Provider" value={customer.packages} />
+                    <InfoItem label="Provider Price" value={`$${planPrice.toFixed(2)} / month`} />
                     <InfoItem label="Installation Date" value={new Date(customer.installationDate).toLocaleDateString()} />
                     <InfoItem label="Renewal Date" value={new Date(customer.renewalDate).toLocaleDateString()} />
                     <InfoItem label="Total Paid" value={`$${totalPaid.toFixed(2)}`} />

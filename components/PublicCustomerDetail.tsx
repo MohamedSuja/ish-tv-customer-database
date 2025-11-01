@@ -1,5 +1,5 @@
 import React from 'react';
-import { Customer, ConnectionStatus, subscriptionPlanPrices, SubscriptionPlan } from '../types';
+import { Customer, ConnectionStatus, subscriptionPlanPrices, Packages } from '../types';
 import { UserIcon } from './icons';
 
 const statusColorMap: Record<ConnectionStatus, string> = {
@@ -17,7 +17,7 @@ const InfoItem: React.FC<{label: string, value?: string | number}> = ({label, va
 
 const PublicCustomerDetail: React.FC<{ customer: Customer }> = ({ customer }) => {
     const totalPaid = customer.purchaseHistory.reduce((sum, p) => sum + p.amount, 0);
-    const planPrice = subscriptionPlanPrices[customer.subscriptionPlan as SubscriptionPlan];
+    const planPrice = subscriptionPlanPrices[customer.packages as Packages];
 
     return (
         <div className="space-y-6 animate-fade-in">
@@ -40,8 +40,8 @@ const PublicCustomerDetail: React.FC<{ customer: Customer }> = ({ customer }) =>
                     <InfoItem label="Contact Number" value={customer.contactNumber} />
                     <InfoItem label="Email" value={customer.email} />
                     <InfoItem label="City" value={customer.address.city} />
-                    <InfoItem label="Subscription Plan" value={customer.subscriptionPlan} />
-                    <InfoItem label="Plan Price" value={`$${planPrice.toFixed(2)} / month`} />
+                    <InfoItem label="DTH Provider" value={customer.packages} />
+                    <InfoItem label="Provider Price" value={`$${planPrice.toFixed(2)} / month`} />
                     <InfoItem label="Installation Date" value={new Date(customer.installationDate).toLocaleDateString()} />
                     <InfoItem label="Renewal Date" value={new Date(customer.renewalDate).toLocaleDateString()} />
                     <InfoItem label="Total Paid" value={`$${totalPaid.toFixed(2)}`} />

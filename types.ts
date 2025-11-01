@@ -1,27 +1,29 @@
 export enum ConnectionStatus {
-  Active = 'Active',
-  Inactive = 'Inactive',
-  Pending = 'Pending',
+  Active = "Active",
+  Inactive = "Inactive",
+  Pending = "Pending",
 }
 
-export enum SubscriptionPlan {
-  Basic = 'Basic',
-  Premium = 'Premium',
-  Sports = 'Sports Pack',
-  Family = 'Family Pack',
+export enum Packages {
+  DishTV = "Dishtv",
+  SunDirect = "Sun direct",
+  Videocon = "Videocon",
+  Airtel = "Airtel",
+  DialogTV = "Dialogtv",
 }
 
 export enum PaymentMode {
-  Cash = 'Cash',
-  Card = 'Card',
-  Online = 'Online',
+  Cash = "Cash",
+  Card = "Card",
+  Online = "Online",
 }
 
-export const subscriptionPlanPrices: Record<SubscriptionPlan, number> = {
-  [SubscriptionPlan.Basic]: 15.00,
-  [SubscriptionPlan.Premium]: 50.00,
-  [SubscriptionPlan.Sports]: 35.00,
-  [SubscriptionPlan.Family]: 25.00,
+export const subscriptionPlanPrices: Record<Packages, number> = {
+  [Packages.DishTV]: 45.0,
+  [Packages.SunDirect]: 35.0,
+  [Packages.Videocon]: 40.0,
+  [Packages.Airtel]: 50.0,
+  [Packages.DialogTV]: 30.0,
 };
 
 export interface Purchase {
@@ -42,7 +44,7 @@ export interface Customer {
   };
   email?: string;
   connectionStatus: ConnectionStatus;
-  subscriptionPlan: SubscriptionPlan;
+  packages: Packages;
   installationDate: string; // ISO string
   renewalDate: string; // ISO string
   purchaseHistory: Purchase[];

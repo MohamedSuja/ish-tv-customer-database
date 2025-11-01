@@ -1,9 +1,4 @@
-import {
-  Customer,
-  ConnectionStatus,
-  SubscriptionPlan,
-  PaymentMode,
-} from "../types";
+import { Customer, ConnectionStatus, Packages, PaymentMode } from "../types";
 
 export const initialCustomers: Customer[] = [
   {
@@ -14,7 +9,7 @@ export const initialCustomers: Customer[] = [
     address: { city: "Metropolis" },
     email: "john.doe@email.com",
     connectionStatus: ConnectionStatus.Active,
-    subscriptionPlan: SubscriptionPlan.Premium,
+    packages: Packages.DishTV,
     installationDate: "2023-01-15T00:00:00.000Z",
     renewalDate: "2025-01-15T00:00:00.000Z",
     purchaseHistory: [
@@ -42,7 +37,7 @@ export const initialCustomers: Customer[] = [
     address: { city: "Gotham" },
     email: "jane.smith@email.com",
     connectionStatus: ConnectionStatus.Active,
-    subscriptionPlan: SubscriptionPlan.Sports,
+    packages: Packages.SunDirect,
     installationDate: "2022-11-20T00:00:00.000Z",
     renewalDate: "2024-11-20T00:00:00.000Z",
     purchaseHistory: [
@@ -62,7 +57,7 @@ export const initialCustomers: Customer[] = [
     contactNumber: "555-0103",
     address: { city: "Metropolis" },
     connectionStatus: ConnectionStatus.Inactive,
-    subscriptionPlan: SubscriptionPlan.Basic,
+    packages: Packages.Videocon,
     installationDate: "2021-05-10T00:00:00.000Z",
     renewalDate: "2024-05-10T00:00:00.000Z",
     purchaseHistory: [],
@@ -74,7 +69,7 @@ export const initialCustomers: Customer[] = [
     contactNumber: "555-0104",
     address: { city: "Star City" },
     connectionStatus: ConnectionStatus.Pending,
-    subscriptionPlan: SubscriptionPlan.Family,
+    packages: Packages.Airtel,
     installationDate: "2024-08-01T00:00:00.000Z",
     renewalDate: "2025-08-01T00:00:00.000Z",
     purchaseHistory: [
