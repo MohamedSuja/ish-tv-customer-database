@@ -1,0 +1,5 @@
+{
+  "name": "Dish TV Customer Database",
+  "description": "A local customer relationship management (CRM) application for a Dish TV service provider. It allows for managing customer details, tracking payments, and viewing service history, with all data stored locally on your computer.",
+  "requestFramePermissions": []
+}
