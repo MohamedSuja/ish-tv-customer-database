@@ -106,7 +106,13 @@ function App() {
   const renderAdminView = () => {
     switch (adminView) {
       case 'DASHBOARD':
-        return <Dashboard customers={customers} onAddCustomer={() => setAdminView('ADD_CUSTOMER')} onViewAll={() => setAdminView('ALL_CUSTOMERS')} onSearch={()=>{}} />;
+        return <Dashboard 
+          customers={customers} 
+          onAddCustomer={() => setAdminView('ADD_CUSTOMER')} 
+          onViewAll={() => setAdminView('ALL_CUSTOMERS')} 
+          onSearch={()=>{}} 
+          onViewCustomer={(id) => { setSelectedCustomerId(id); setAdminView('CUSTOMER_DETAIL'); }}
+        />;
       case 'ALL_CUSTOMERS':
         return <CustomerList customers={customers} onViewCustomer={(id) => { setSelectedCustomerId(id); setAdminView('CUSTOMER_DETAIL'); }} onDeleteCustomer={handleDeleteCustomer} />;
       case 'CUSTOMER_DETAIL':
@@ -115,7 +121,13 @@ function App() {
       case 'ADD_CUSTOMER':
         return <CustomerForm onSubmit={handleAddCustomer} onCancel={() => setAdminView('DASHBOARD')} />;
       default:
-        return <Dashboard customers={customers} onAddCustomer={() => setAdminView('ADD_CUSTOMER')} onViewAll={() => setAdminView('ALL_CUSTOMERS')} onSearch={()=>{}} />;
+        return <Dashboard 
+          customers={customers} 
+          onAddCustomer={() => setAdminView('ADD_CUSTOMER')} 
+          onViewAll={() => setAdminView('ALL_CUSTOMERS')} 
+          onSearch={()=>{}} 
+          onViewCustomer={(id) => { setSelectedCustomerId(id); setAdminView('CUSTOMER_DETAIL'); }}
+        />;
     }
   };
   
