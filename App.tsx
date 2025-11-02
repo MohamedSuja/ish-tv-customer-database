@@ -8,6 +8,7 @@ import CustomerDetail from './components/CustomerDetail';
 import CustomerForm from './components/CustomerForm';
 import Login from './components/Login';
 import HomePage from './components/HomePage';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { HomeIcon, PlusIcon, UsersIcon, PowerIcon } from './components/icons';
 
 type AdminView = 'DASHBOARD' | 'ALL_CUSTOMERS' | 'CUSTOMER_DETAIL' | 'ADD_CUSTOMER' | 'EDIT_CUSTOMER';
@@ -139,6 +140,7 @@ function App() {
             )}
             {renderAdminView()}
         </main>
+        <PWAInstallPrompt />
     </div>
   );
 }
