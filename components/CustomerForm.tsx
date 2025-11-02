@@ -1,11 +1,88 @@
 import React, { useState, useEffect } from "react";
-import { Customer, ConnectionStatus, Packages } from "../types";
+import {
+  Customer,
+  ConnectionStatus,
+  Packages,
+  subscriptionPlanPrices,
+  providerPriceOptions,
+} from "../types";
 
 interface CustomerFormProps {
   initialData?: Customer | null;
   onSubmit: (customer: Omit<Customer, "purchaseHistory">) => void;
   onCancel: () => void;
 }
+
+const InputField: React.FC<{
+  label: string;
+  name: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  type?: string;
+  required?: boolean;
+  disabled?: boolean;
+}> = ({
+  label,
+  name,
+  value,
+  onChange,
+  type = "text",
+  required = false,
+  disabled = false,
+}) => (
+  <div>
+    <label
+      htmlFor={name}
+      className="block mb-2 text-sm font-medium text-gray-300"
+    >
+      {label}
+    </label>
+    <input
+      type={type}
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+      disabled={disabled}
+      className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 disabled:bg-gray-700 disabled:cursor-not-allowed"
+    />
+  </div>
+);
+
+const SelectField: React.FC<{
+  label: string;
+  name: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  options: object;
+}> = ({ label, name, value, onChange, options }) => (
+  <div>
+    <label
+      htmlFor={name}
+      className="block mb-2 text-sm font-medium text-gray-300"
+    >
+      {label}
+    </label>
+    <select
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+    >
+      {Object.values(options).map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  </div>
+);
 
 const CustomerForm: React.FC<CustomerFormProps> = ({
   initialData,
@@ -20,14 +97,34 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
     address: { city: "" },
     connectionStatus: ConnectionStatus.Pending,
     packages: Packages.DishTV,
+    subscriptionPrice: 0,
     installationDate: new Date().toISOString().split("T")[0],
     renewalDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
       .toISOString()
       .split("T")[0],
   });
 
+  // Get available price options for the selected package
+  const availablePrices = providerPriceOptions[formData.packages as Packages];
+
+  // Update subscriptionPrice when package changes
+  useEffect(() => {
+    if (
+      !formData.subscriptionPrice ||
+      !availablePrices.includes(formData.subscriptionPrice)
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        subscriptionPrice: availablePrices[0],
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.packages]);
+
   useEffect(() => {
     if (initialData) {
+      const defaultPrice =
+        subscriptionPlanPrices[initialData.packages as Packages];
       setFormData({
         name: initialData.name,
         contactNumber: initialData.contactNumber,
@@ -36,6 +133,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
         address: { city: initialData.address.city },
         connectionStatus: initialData.connectionStatus,
         packages: initialData.packages,
+        subscriptionPrice: initialData.subscriptionPrice || defaultPrice,
         installationDate: new Date(initialData.installationDate)
           .toISOString()
           .split("T")[0],
@@ -52,6 +150,8 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
     const { name, value } = e.target;
     if (name === "address.city") {
       setFormData((prev) => ({ ...prev, address: { city: value } }));
+    } else if (name === "subscriptionPrice") {
+      setFormData((prev) => ({ ...prev, [name]: parseFloat(value) }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -67,73 +167,6 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
     };
     onSubmit(customerData);
   };
-
-  const InputField: React.FC<{
-    label: string;
-    name: string;
-    value: string;
-    onChange: any;
-    type?: string;
-    required?: boolean;
-    disabled?: boolean;
-  }> = ({
-    label,
-    name,
-    value,
-    onChange,
-    type = "text",
-    required = false,
-    disabled = false,
-  }) => (
-    <div>
-      <label
-        htmlFor={name}
-        className="block mb-2 text-sm font-medium text-gray-300"
-      >
-        {label}
-      </label>
-      <input
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-        disabled={disabled}
-        className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 disabled:bg-gray-700 disabled:cursor-not-allowed"
-      />
-    </div>
-  );
-
-  const SelectField: React.FC<{
-    label: string;
-    name: string;
-    value: string;
-    onChange: any;
-    options: object;
-  }> = ({ label, name, value, onChange, options }) => (
-    <div>
-      <label
-        htmlFor={name}
-        className="block mb-2 text-sm font-medium text-gray-300"
-      >
-        {label}
-      </label>
-      <select
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-      >
-        {Object.values(options).map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
 
   return (
     <div className="p-4 sm:p-6 md:p-8">
@@ -196,6 +229,29 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
             onChange={handleChange}
             options={Packages}
           />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label
+              htmlFor="providerPrice"
+              className="block mb-2 text-sm font-medium text-gray-300"
+            >
+              Provider Price
+            </label>
+            <select
+              id="providerPrice"
+              name="subscriptionPrice"
+              value={formData.subscriptionPrice}
+              onChange={handleChange}
+              className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+            >
+              {availablePrices.map((price) => (
+                <option key={price} value={price.toString()}>
+                  RS {price.toFixed(2)} / month
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputField
