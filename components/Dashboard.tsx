@@ -51,7 +51,7 @@ const Dashboard: React.FC<DashboardProps> = ({ customers, onAddCustomer, onViewA
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard title="Total Customers" value={customers.length} icon={<UsersIcon className="w-6 h-6 text-white"/>} />
         <StatCard title="Active Subscriptions" value={stats.active} icon={<CheckCircleIcon className="w-6 h-6 text-white"/>} />
-        <StatCard title="Total Revenue" value={`$${stats.totalRevenue.toFixed(2)}`} icon={<CurrencyDollarIcon className="w-6 h-6 text-white"/>} />
+        <StatCard title="Total Revenue" value={`RS ${stats.totalRevenue.toFixed(2)}`} icon={<CurrencyDollarIcon className="w-6 h-6 text-white"/>} />
       </div>
     </div>
   );
