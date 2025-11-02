@@ -7,6 +7,77 @@ interface CustomerFormProps {
   onCancel: () => void;
 }
 
+const InputField: React.FC<{
+  label: string;
+  name: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  type?: string;
+  required?: boolean;
+  disabled?: boolean;
+}> = ({
+  label,
+  name,
+  value,
+  onChange,
+  type = "text",
+  required = false,
+  disabled = false,
+}) => (
+  <div>
+    <label
+      htmlFor={name}
+      className="block mb-2 text-sm font-medium text-gray-300"
+    >
+      {label}
+    </label>
+    <input
+      type={type}
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+      disabled={disabled}
+      className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 disabled:bg-gray-700 disabled:cursor-not-allowed"
+    />
+  </div>
+);
+
+const SelectField: React.FC<{
+  label: string;
+  name: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  options: object;
+}> = ({ label, name, value, onChange, options }) => (
+  <div>
+    <label
+      htmlFor={name}
+      className="block mb-2 text-sm font-medium text-gray-300"
+    >
+      {label}
+    </label>
+    <select
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+    >
+      {Object.values(options).map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+
 const CustomerForm: React.FC<CustomerFormProps> = ({
   initialData,
   onSubmit,
@@ -67,73 +138,6 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
     };
     onSubmit(customerData);
   };
-
-  const InputField: React.FC<{
-    label: string;
-    name: string;
-    value: string;
-    onChange: any;
-    type?: string;
-    required?: boolean;
-    disabled?: boolean;
-  }> = ({
-    label,
-    name,
-    value,
-    onChange,
-    type = "text",
-    required = false,
-    disabled = false,
-  }) => (
-    <div>
-      <label
-        htmlFor={name}
-        className="block mb-2 text-sm font-medium text-gray-300"
-      >
-        {label}
-      </label>
-      <input
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-        disabled={disabled}
-        className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 disabled:bg-gray-700 disabled:cursor-not-allowed"
-      />
-    </div>
-  );
-
-  const SelectField: React.FC<{
-    label: string;
-    name: string;
-    value: string;
-    onChange: any;
-    options: object;
-  }> = ({ label, name, value, onChange, options }) => (
-    <div>
-      <label
-        htmlFor={name}
-        className="block mb-2 text-sm font-medium text-gray-300"
-      >
-        {label}
-      </label>
-      <select
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-      >
-        {Object.values(options).map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
 
   return (
     <div className="p-4 sm:p-6 md:p-8">
