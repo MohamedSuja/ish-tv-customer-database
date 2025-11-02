@@ -4,7 +4,6 @@ import {
   ConnectionStatus,
   Packages,
   subscriptionPlanPrices,
-  providerPriceOptions,
 } from "../types";
 
 interface CustomerFormProps {
@@ -103,23 +102,6 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
       .toISOString()
       .split("T")[0],
   });
-
-  // Get available price options for the selected package
-  const availablePrices = providerPriceOptions[formData.packages as Packages];
-
-  // Update subscriptionPrice when package changes
-  useEffect(() => {
-    if (
-      !formData.subscriptionPrice ||
-      !availablePrices.includes(formData.subscriptionPrice)
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        subscriptionPrice: availablePrices[0],
-      }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData.packages]);
 
   useEffect(() => {
     if (initialData) {
@@ -231,27 +213,14 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="providerPrice"
-              className="block mb-2 text-sm font-medium text-gray-300"
-            >
-              Provider Price
-            </label>
-            <select
-              id="providerPrice"
-              name="subscriptionPrice"
-              value={formData.subscriptionPrice}
-              onChange={handleChange}
-              className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-            >
-              {availablePrices.map((price) => (
-                <option key={price} value={price.toString()}>
-                  RS {price.toFixed(2)} / month
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Provider Price"
+            name="subscriptionPrice"
+            value={formData.subscriptionPrice.toString()}
+            onChange={handleChange}
+            type="number"
+            required
+          />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputField
